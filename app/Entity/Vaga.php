@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use \App\Db\Database;
+
 class Vaga{
     /**
      * Identificador único da vaga
@@ -41,8 +43,15 @@ class Vaga{
     public function cadastrar(){
         //Definir a data
         $this->data = date('Y-m-d H:i:s');
-        //Inserir a vaga no banco
 
+        //Inserir a vaga no banco
+        $obDatabase = new Database('vagas');
+        $obDatabase->insert([
+                            'titulo'    => $this->titulo,
+                            'descricao' => $this->descricao,
+                            'ativo'     => $this->ativo,
+                            'data'      =>$this->data
+                        ]);
         //Atribuir o ID da vaga na instância
 
         //Retornar Sucesso
