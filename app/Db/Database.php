@@ -2,13 +2,13 @@
 
 namespace App\Db;
 
-
 use \PDO;
-use PDOException;
+use \PDOException;
 
 class Database{
+
     /**
-     * Host de conexão com o Banco de dados
+     * Host de conexão com o banco de dados
      * @var string
      */
     const HOST = 'localhost';
@@ -17,10 +17,10 @@ class Database{
      * Nome do banco de dados
      * @var string
      */
-    const NAME = 'vagas';
+    const NAME = 'wdev_vagas';
 
     /**
-     *Usuário do banco
+     * Usuário do banco
      * @var string
      */
     const USER = 'root';
@@ -38,74 +38,88 @@ class Database{
     private $table;
 
     /**
-     * Instância de conexão com o banco de dados
+     * Instancia de conexão com o banco de dados
      * @var PDO
      */
     private $connection;
 
     /**
-     * Define a tabela, instância e conexão
+     * Define a tabela e instancia e conexão
      * @param string $table
-     * 
      */
-    public function __construct($table = null)
-    {
-        $this->table = $table;
-        $this->setConnection();
-    }
+    public function __construct($table = null){
+      $this->table = $table;
+      $this->setConnection();
+  }
 
     /**
      * Método responsável por criar uma conexão com o banco de dados
      */
-    private function setConnection()
-    {
-        try{
-            $this->connection = new PDO('mysql:host='.self::HOST.';wdev_vagas'.self::NAME, SELF::USER, self::PASS);
-            $this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        }catch(PDOException $e){
-         die('ERROR: '.$e->getMessage());
-        }
-    }
+    private function setConnection(){
+      try{
+        $this->connection = new PDO('mysql:host='.self::HOST.';dbname='.self::NAME,self::USER,self::PASS);
+        $this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+      }catch(PDOException $e){
+        die('ERROR: '.$e->getMessage());
+      }
+  }
+
     /**
      * Método responsável por executar queries dentro do banco de dados
-     * @param string $query
-     * @param array $params
+     * @param  string $query
+     * @param  array  $params
      * @return PDOStatement
-     * 
      */
-    public function execute($query, $params = [])
-    {
-        try{
-            $statement = $this->connection->prepare($query);
-            $statement->execute($params);
-            return $statement;
-        }catch(PDOException $e){
-         die('ERROR: '.$e->getMessage());
-        }
-    }
+    public function execute($query,$params = []){
+      try{
+        $statement = $this->connection->prepare($query);
+        $statement->execute($params);
+        return $statement;
+      }catch(PDOException $e){
+        die('ERROR: '.$e->getMessage());
+      }
+  }
 
     /**
-     * Método responsável por inseerir dados do banco
-     * @param array $values [ field =>value ]
-     * @return integer
+     * Método responsável por inserir dados no banco
+     * @param  array $values [ field => value ]
+     * @return integer ID inserido
      */
+    public function insert($values){
+      //DADOS DA QUERY
+      $fields = array_keys($values);
+      $binds  = array_pad([],count($fields),'?');
 
-    public function insert ($values)
+      //MONTA A QUERY
+      $query = 'INSERT INTO '.$this->table.' ('.implode(',',$fields).') VALUES ('.implode(',',$binds).')';
+
+      //EXECUTA O INSERT
+      $this->execute($query,array_values($values));
+
+      //RETORNA O ID INSERIDO
+      return $this->connection->lastInsertId();
+  }
+    /**
+     * Método responsável por executar uma consulta no banco
+     * @param string $where
+     * @param string $order
+     * @param string $limit
+     * @param string $fields
+     * @return PDOStatement
+     */  
+    public function select($where = null, $order = null, $limit = null, $fields = '*')
     {
-        //DADOS DA QUERY
-        $fields = array_keys($values);
-        $binds = array_pad([],count($fields), '?');
+      //DADOS DA QUERY
+      $where = strlen($where) ? 'WHERE '.$where : ''; 
+      $order = strlen($order) ? 'ORDER BY '.$order : '';
+      $limit = strlen($limit) ? 'LIMIT '.$limit : '';
 
-        
-        //echo "<pre>"; print_r($fields); echo "</pre>"; exit;
+      //MONTA A QUERY
+      $query = 'SELECT '.$fields.' FROM '.$this->table.' '.$where.' '.$order.' '.$limit;
 
-        /**
-         * MONTA A QUERY
-         * Query de inserção do Banco de dados.
-         * Os valores de VALUES são passsados dessa maneira como medida protetiva do PDO.
-         */
-        $query = 'INSERT INTO '.$this->table.' ('.implode(',',$fields).') VALUES ('.implode(',',$binds).')';
-
-      
+      //EXECUTA A QUERY
+      return $this->execute($query);
     }
+
+
 }
