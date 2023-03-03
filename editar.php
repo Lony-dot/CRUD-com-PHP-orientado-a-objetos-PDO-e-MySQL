@@ -12,6 +12,7 @@ if (!isset($_GET['id']) or !is_numeric($_GET['id'])) {
     exit;
 }
 
+//CONSULTA A VAGA
 $obVaga = Vaga::getVaga($_GET['id']);
 
 
@@ -24,10 +25,10 @@ if (!$obVaga instanceof Vaga) {
 //Validação do POST
 if(isset($_POST['titulo'], $_POST['descricao'], $_POST['ativo'])){
 
-    $obVaga->titulo = $_POST['titulo'];
+    $obVaga->titulo    = $_POST['titulo'];
     $obVaga->descricao = $_POST['descricao'];
-    $obVaga->ativo = $_POST['ativo'];
-    echo "<pre>"; print_r($obVaga); echo "</pre>"; exit;
+    $obVaga->ativo     = $_POST['ativo'];
+    //echo "<pre>"; print_r($obVaga); echo "</pre>"; exit;
     //$obVaga->cadastrar();
 
     header('location: index.php?status=success');
