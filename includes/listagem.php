@@ -54,6 +54,21 @@
 
 <section>
 
+<form method="get">
+
+    <div class="row">
+        <div class="col">
+            <label>Buscar por título</label>
+            <input type="text" name="busca" class="form-control">
+        </div>
+    </div>
+
+</form>
+    
+</section>
+
+<section>
+
     <table class="table table-dark mt-3">
         <thead>
             <tr>
