@@ -56,10 +56,14 @@
 
 <form method="get">
 
-    <div class="row">
+    <div class="row my-4">
         <div class="col">
             <label>Buscar por título</label>
-            <input type="text" name="busca" class="form-control">
+            <input type="text" name="busca" class="form-control" value="<?=$busca?>">
+        </div>
+
+        <div class="col d-flex align-items-end">
+            <button type="submit" class="btn btn-primary">Filtrar</button>
         </div>
     </div>
 
