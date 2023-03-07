@@ -11,20 +11,31 @@ $busca = filter_input(INPUT_GET, 'busca', FILTER_VALIDATE_REGEXP, array(
     ),
 ));
 
+//FILTRO DE STATUS
+$filtroStatus = filter_input(INPUT_GET, 'status', FILTER_SANITIZE_SPECIAL_CHARS);
+    $filtroStatus = in_array($filtroStatus,['s','n']) ? $filtroStatus : '';
+/*echo "<pre>"; 
+print_r($filtroStatus); 
+echo "</pre>";*/
+
 
 //CONDIÇÕES SQL
 $condicoes = [
-                                      //Tudo que for espaço será substítuido por % dentro de $busca.          
-    strlen($busca) ? 'titulo LIKE "%'.str_replace(' ', '%', $busca).'%"' : NULL
+//Tudo que for espaço será substítuido por % dentro de $busca.          
+    strlen($busca) ? 'titulo LIKE "%'.str_replace(' ', '%', $busca).'%"' : NULL,
+    strlen($filtroStatus) ? 'ativo = "'.$filtroStatus.'"' : null
 ];
+
+
+//REMOVE POSIÇÕES VAZIAS
+$condicoes = array_filter($condicoes);
+
+
 
 //CLAÚSULA WHERE
 $where = implode(' AND ', $condicoes);
 
-/*echo "<pre>"; 
-print_r($condicoes); 
-echo "</pre>"; 
-*/
+
 
 //OBTEM AS VAGAS
 $vagas = Vaga::getVagas($where);
