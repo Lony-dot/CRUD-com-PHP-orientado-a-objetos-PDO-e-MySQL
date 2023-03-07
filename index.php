@@ -37,6 +37,7 @@ $where = implode(' AND ', $condicoes);
 
 
 
+
 //OBTEM AS VAGAS
 $vagas = Vaga::getVagas($where);
 //echo "<pre>"; print_r($vagas); echo "</pre>"; exit; 
