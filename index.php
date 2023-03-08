@@ -3,6 +3,7 @@
 require __DIR__ . '/vendor/autoload.php';
 
 use \App\Entity\Vaga;
+use \App\Db\Pagination;
 
 //BUSCA
 $busca = filter_input(INPUT_GET, 'busca', FILTER_VALIDATE_REGEXP, array(

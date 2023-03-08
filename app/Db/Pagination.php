@@ -40,4 +40,15 @@ class Pagination{
         $this->currentPage = (is_numeric($currentPage) and $currentPage > 0) ? $currentPage : 1; //valida se é numérico.
 
     }
+    /**
+     * Método responsável por calcular a paginação 
+     */
+    private function calculate()
+    {
+        //CALCULA O TOTAL DE PÁGINAS
+        $this->pages = $this->results > 0 ? ceil($this->results / $this->limit) : 1;
+
+        //VERIFICA SE PÁGINA ATUAL NÃO EXCEDE O NÚMERO DE PÁGINAS
+        $this->currentPage = $this->currentPage <= $this->pages ? $this->currentPage : $this->pages;
+    }
 }
