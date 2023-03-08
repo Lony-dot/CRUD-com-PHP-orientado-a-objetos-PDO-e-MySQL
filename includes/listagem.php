@@ -39,6 +39,9 @@
                                                             Nenhuma vaga encontrada
                                                         </td>
                                                       </tr>';
+    //PAGINAÇÃO
+    $paginas = $obPagination->getPages();
+   
                                                     
 ?>
 

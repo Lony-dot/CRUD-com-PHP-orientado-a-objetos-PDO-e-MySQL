@@ -32,15 +32,19 @@ $condicoes = [
 $condicoes = array_filter($condicoes);
 
 
-
 //CLAÚSULA WHERE
 $where = implode(' AND ', $condicoes);
 
+//QUANTIDADE TOTAL DE VAGAS
+$quantidadeVagas = Vaga::getQuantidadeVagas($where);
+
+//PAGINAÇÃO
+$obPagination = new Pagination($quantidadeVagas, $_GET['pagina'] ?? 1, 10);
 
 
 
 //OBTEM AS VAGAS
-$vagas = Vaga::getVagas($where);
+$vagas = Vaga::getVagas($where,null,$obPagination->getLimit());
 //echo "<pre>"; print_r($vagas); echo "</pre>"; exit; 
 
 include __DIR__ . '/includes/header.php';
