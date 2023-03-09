@@ -4,6 +4,27 @@ namespace App\Session;
 
 class login
 {
+
+    /** 
+     * Método responsável por iniciar a sessão
+    */
+    private static function init()
+    {
+        //VERIFICA O STATUS DA SESSÃO
+        if(session_status() !== PHP_SESSION_ACTIVE)
+        {
+            session_start();
+        }
+    }
+    /**
+     * Método responsável por logar o usuário
+     * @param Usuario $obUsuario
+     */
+    public static function login($obUsuario)
+    {
+
+    }
+
     /**
      * Método responsável por verificar se o usuário está logado
      * @return boolean

@@ -19,8 +19,11 @@ if(isset($_POST['acao']))
     {
         case 'logar':
 
+            //BUSCA USUÁRIO POR E-MAIL
             $obUsuario = Usuario::getUsuarioPorEmail($_POST['email']);
-            if(!$obUsuario instanceof Usuario)
+
+            //VALIDA A INSTÂNCIA E A SENHA
+            if(!$obUsuario instanceof Usuario || !password_verify($_POST['senha'], $obUsuario->senha))
             {
                 $alertaLogin = 'E-mail ou senha inválidos';
                 break;
