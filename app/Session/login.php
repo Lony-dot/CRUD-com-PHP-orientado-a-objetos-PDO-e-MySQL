@@ -13,16 +13,30 @@ class login
         //VERIFICA O STATUS DA SESSÃO
         if(session_status() !== PHP_SESSION_ACTIVE)
         {
+            //INICIA A SESSÃO
             session_start();
         }
     }
+
     /**
      * Método responsável por logar o usuário
      * @param Usuario $obUsuario
      */
     public static function login($obUsuario)
     {
+        //INICIA A SESSÃO
+        self::init();
 
+        //SESSÃO DE USUÁRIO
+        $_SESSION['usuario'] = [
+            'id' => $obUsuario->id,
+            'nome' => $obUsuario->nome,
+            'email' => $obUsuario->email
+        ];
+
+        //REDIRECIONA USUÁRIO PARA INDEX
+        header('location: index.php');
+        exit;
     }
 
     /**
@@ -31,7 +45,11 @@ class login
      */
     public static function isLogged()
     {
-        return false;
+         //INICIA A SESSÃO
+         self::init();
+
+        //VALIDAÇÃO DA SESSÃO
+        return isset($_SESSION['usuario']['id']);
     }
 
     /**

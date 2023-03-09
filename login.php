@@ -29,9 +29,8 @@ if(isset($_POST['acao']))
                 break;
             }
 
-            echo "<pre>";
-                print_r($obUsuario);
-                echo "</pre>"; exit;
+            //LOGA O USUÁRIO 
+            Login::login($obUsuario);
 
             break;
 
