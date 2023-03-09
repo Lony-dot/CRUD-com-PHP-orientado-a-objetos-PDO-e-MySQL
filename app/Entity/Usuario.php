@@ -50,4 +50,14 @@ class Usuario
         //SUCESSO
         return true;
     }
+
+    /**
+     * Método responsável por retornar uma instância do usuário com base em seu e-mail
+     * @param string $email
+     * @return Usuario
+     */
+    public static function getUsuarioPorEmail($email)
+    {
+      return (new Database('usuarios'))->select('email = "'.$email.'"')->fetchObject(self::class);
+    }
 }
