@@ -19,6 +19,19 @@ class login
     }
 
     /**
+     * Método responsável por retornar os dados do usuário logado
+     * @return array
+     */
+    public static function getUsuarioLogado()
+    {
+         //INICIA A SESSÃO
+         self::init();
+
+            //RETORNA DADOS DO USUÁRIO
+         return self::isLogged() ? $_SESSION['usuario'] : null;
+    }
+
+    /**
      * Método responsável por logar o usuário
      * @param Usuario $obUsuario
      */
@@ -37,6 +50,23 @@ class login
         //REDIRECIONA USUÁRIO PARA INDEX
         header('location: index.php');
         exit;
+    }
+
+    /**
+     * Método responsável por deslogar o usuário
+     */
+    public static function logout()
+    {
+          //INICIA A SESSÃO
+          self::init();
+
+        //REMOVE A SESSÃO DE USUÁRIO
+          unset($_SESSION['usuario']);
+          
+          //REDIRECIONA USUÁRIO PARA LOGIN
+        header('location: Login.php');
+        exit;
+        
     }
 
     /**
